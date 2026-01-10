@@ -52,7 +52,7 @@ namespace FarLibDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("FarLibDAL.Books.Entities.Book", b =>
@@ -77,7 +77,7 @@ namespace FarLibDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("FarLibDAL.Distributors.Entities.Distributor", b =>
@@ -99,7 +99,7 @@ namespace FarLibDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Distributors");
+                    b.ToTable("Distributors", (string)null);
                 });
 
             modelBuilder.Entity("FarLibDAL.Stocks.Entities.Stock", b =>
@@ -117,7 +117,7 @@ namespace FarLibDAL.Migrations
 
                     b.HasIndex("DistributorId");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stocks", (string)null);
                 });
 
             modelBuilder.Entity("AuthorBook", b =>
