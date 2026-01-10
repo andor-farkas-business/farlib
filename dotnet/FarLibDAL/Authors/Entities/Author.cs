@@ -8,5 +8,5 @@ public class Author
     public required string Name { get; set; }
     public string? Description { get; set; }
 
-    public required IList<Book> Books { get; set; }
+    public IList<Book> Books { get; set; } = [];
 }
