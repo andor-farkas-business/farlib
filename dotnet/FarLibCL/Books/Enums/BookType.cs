@@ -1,4 +1,4 @@
-namespace FarLibDAL.Books.Enums;
+namespace FarLibCL.Books.Enums;
 
 public enum BookType
 {

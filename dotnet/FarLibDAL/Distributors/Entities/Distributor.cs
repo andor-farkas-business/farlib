@@ -1,4 +1,4 @@
-using FarLibDAL.Distributors.Enums;
+using FarLibCL.Distributors.Enums;
 using FarLibDAL.Stocks.Entities;
 
 namespace FarLibDAL.Distributors.Entities;

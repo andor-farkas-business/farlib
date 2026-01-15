@@ -1,4 +1,4 @@
-namespace FarLibDAL.Distributors.Enums;
+namespace FarLibCL.Distributors.Enums;
 
 public enum DistributorType
 {
