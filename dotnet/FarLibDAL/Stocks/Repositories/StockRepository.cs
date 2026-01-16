@@ -1,5 +1,5 @@
+using FarLibCL.Stocks.Entities;
 using FarLibDAL.Database;
-using FarLibDAL.Stocks.Entities;
 using FarLibDAL.Stocks.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

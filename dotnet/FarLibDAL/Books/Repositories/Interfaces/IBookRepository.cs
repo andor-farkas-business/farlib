@@ -1,6 +1,6 @@
 using FarLibCL.Books.Dtos;
+using FarLibCL.Books.Entities;
 using FarLibCL.Books.Enums;
-using FarLibDAL.Books.Entities;
 
 namespace FarLibDAL.Books.Repositories.Interfaces;
 

@@ -1,6 +1,6 @@
 using FarLibCL.Books.Dtos;
+using FarLibCL.Books.Entities;
 using FarLibCL.Books.Enums;
-using FarLibDAL.Books.Entities;
 using FarLibDAL.Books.Repositories.Interfaces;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;
