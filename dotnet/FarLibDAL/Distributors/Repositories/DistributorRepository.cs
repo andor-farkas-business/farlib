@@ -1,6 +1,7 @@
 using FarLibCL.Distributors.Dtos;
 using FarLibCL.Distributors.Entities;
 using FarLibCL.Distributors.Enums;
+using FarLibCL.Exceptions;
 using FarLibDAL.Database;
 using FarLibDAL.Distributors.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -39,12 +40,8 @@ public class DistributorRepository(FarLibDbContext dbContext) : IDistributorRepo
 
     public async Task UpdateAsync(Guid id, UpdateDistributorDto update)
     {
-        var foundDistributor = await dbContext.Distributors.FindAsync(id);
-
-        if (foundDistributor == null)
-        {
-            return;
-        }
+        var foundDistributor = await dbContext.Distributors.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Distributor), nameof(Distributor.Id), id.ToString());
 
         if (!string.IsNullOrWhiteSpace(update.Name))
         {
@@ -64,12 +61,8 @@ public class DistributorRepository(FarLibDbContext dbContext) : IDistributorRepo
 
     public async Task DeleteAsync(Guid id)
     {
-        var foundDistributor = await dbContext.Distributors.FindAsync(id);
-
-        if (foundDistributor == null)
-        {
-            return;
-        }
+        var foundDistributor = await dbContext.Distributors.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Distributor), nameof(Distributor.Id), id.ToString());
 
         dbContext.Distributors.Remove(foundDistributor);
     }

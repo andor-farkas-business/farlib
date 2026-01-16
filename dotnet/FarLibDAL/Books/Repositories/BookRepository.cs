@@ -1,6 +1,7 @@
 using FarLibCL.Books.Dtos;
 using FarLibCL.Books.Entities;
 using FarLibCL.Books.Enums;
+using FarLibCL.Exceptions;
 using FarLibDAL.Books.Repositories.Interfaces;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;
@@ -60,12 +61,8 @@ public class BookRepository(FarLibDbContext dbContext) : IBookRepository
 
     public async Task UpdateAsync(Guid id, UpdateBookDto update)
     {
-        var foundBook = await dbContext.Books.FindAsync(id);
-
-        if (foundBook == null)
-        {
-            return;
-        }
+        var foundBook = await dbContext.Books.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Book), nameof(Book.Id), id.ToString());
 
         if (!string.IsNullOrWhiteSpace(update.Title))
         {
@@ -90,13 +87,9 @@ public class BookRepository(FarLibDbContext dbContext) : IBookRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        var foundBook = await dbContext.Books.FindAsync(id);
-
-        if (foundBook == null)
-        {
-            return;
-        }
-
+        var foundBook = await dbContext.Books.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Book), nameof(Book.Id), id.ToString());
+            
         dbContext.Books.Remove(foundBook);
     }
 }
