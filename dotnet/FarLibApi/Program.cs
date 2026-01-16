@@ -12,6 +12,7 @@ builder.Services.AddDbContext<FarLibDbContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddLogging();
+builder.Services.AddControllers();
 
 // Add FarLib services to the container.
 builder.Services.AddAuthorServices();
@@ -25,6 +26,8 @@ builder.Services.AddOpenApi();
 
 
 var app = builder.Build();
+
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
