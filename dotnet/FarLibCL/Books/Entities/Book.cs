@@ -1,8 +1,8 @@
+using FarLibCL.Authors.Entities;
 using FarLibCL.Books.Enums;
-using FarLibDAL.Authors.Entities;
-using FarLibDAL.Stocks.Entities;
+using FarLibCL.Stocks.Entities;
 
-namespace FarLibDAL.Books.Entities;
+namespace FarLibCL.Books.Entities;
 
 public class Book
 {

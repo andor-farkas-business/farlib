@@ -1,5 +1,6 @@
 using FarLibCL.Authors.Dtos;
-using FarLibDAL.Authors.Entities;
+using FarLibCL.Authors.Entities;
+using FarLibCL.Exceptions;
 using FarLibDAL.Authors.Repositories.Interfaces;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;

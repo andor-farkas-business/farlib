@@ -1,7 +1,7 @@
-using FarLibDAL.Books.Entities;
-using FarLibDAL.Distributors.Entities;
+using FarLibCL.Books.Entities;
+using FarLibCL.Distributors.Entities;
 
-namespace FarLibDAL.Stocks.Entities;
+namespace FarLibCL.Stocks.Entities;
 
 public class Stock
 {

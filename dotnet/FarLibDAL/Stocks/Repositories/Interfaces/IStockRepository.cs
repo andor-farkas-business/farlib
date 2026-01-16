@@ -1,4 +1,4 @@
-using FarLibDAL.Stocks.Entities;
+using FarLibCL.Stocks.Entities;
 
 namespace FarLibDAL.Stocks.Repositories.Interfaces;
 

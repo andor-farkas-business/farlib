@@ -1,6 +1,6 @@
-using FarLibDAL.Books.Entities;
+using FarLibCL.Books.Entities;
 
-namespace FarLibDAL.Authors.Entities;
+namespace FarLibCL.Authors.Entities;
 
 public class Author
 {
