@@ -31,12 +31,8 @@ public class AuthorRepository(FarLibDbContext dbContext) : IAuthorRepository
 
     public async Task UpdateAsync(Guid id, UpdateAuthorDto update)
     {
-        var foundAuthor = await dbContext.Authors.FindAsync(id);
-
-        if (foundAuthor == null)
-        {
-            return;
-        }
+        var foundAuthor = await dbContext.Authors.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Author), nameof(Author.Id), id.ToString());
 
         if (!string.IsNullOrWhiteSpace(update.Name))
         {
@@ -51,12 +47,8 @@ public class AuthorRepository(FarLibDbContext dbContext) : IAuthorRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        var foundAuthor = await dbContext.Authors.FindAsync(id);
-
-        if (foundAuthor == null)
-        {
-            return;
-        }
+        var foundAuthor = await dbContext.Authors.FindAsync(id) ??
+            throw new ObjectNotFoundException(nameof(Author), nameof(Author.Id), id.ToString());
 
         dbContext.Authors.Remove(foundAuthor);
     }

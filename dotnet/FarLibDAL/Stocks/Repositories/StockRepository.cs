@@ -1,3 +1,4 @@
+using FarLibCL.Exceptions;
 using FarLibCL.Stocks.Entities;
 using FarLibDAL.Database;
 using FarLibDAL.Stocks.Repositories.Interfaces;
@@ -46,24 +47,22 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
 
     public async Task UpdateAsync(Guid bookId, Guid distributorId, int update)
     {
-        var foundStock = await dbContext.Stocks.FindAsync(bookId, distributorId);
-
-        if (foundStock == null)
-        {
-            return;
-        }
+        var foundStock = await dbContext.Stocks.FindAsync(bookId, distributorId) ??
+            throw new ObjectNotFoundException(
+                nameof(Stock),
+                $"{nameof(Stock.BookId)}, {nameof(Stock.DistributorId)}",
+                $"{bookId}, {distributorId}");
 
         foundStock.Amount = update;
     }
 
     public async Task DeleteAsync(Guid bookId, Guid distributorId)
     {
-        var foundStock = await dbContext.Stocks.FindAsync(bookId, distributorId);
-
-        if (foundStock == null)
-        {
-            return;
-        }
+        var foundStock = await dbContext.Stocks.FindAsync(bookId, distributorId) ??
+            throw new ObjectNotFoundException(
+                nameof(Stock),
+                $"{nameof(Stock.BookId)}, {nameof(Stock.DistributorId)}",
+                $"{bookId}, {distributorId}");
 
         dbContext.Stocks.Remove(foundStock);
     }
