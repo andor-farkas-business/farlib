@@ -1,5 +1,5 @@
 using FarLibCL.Authors.Dtos;
-using FarLibDAL.Authors.Entities;
+using FarLibCL.Authors.Entities;
 
 namespace FarLibDAL.Authors.Repositories.Interfaces;
 

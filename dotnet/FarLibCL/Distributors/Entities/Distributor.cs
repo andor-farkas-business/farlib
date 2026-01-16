@@ -1,7 +1,7 @@
 using FarLibCL.Distributors.Enums;
-using FarLibDAL.Stocks.Entities;
+using FarLibCL.Stocks.Entities;
 
-namespace FarLibDAL.Distributors.Entities;
+namespace FarLibCL.Distributors.Entities;
 
 public class Distributor
 {

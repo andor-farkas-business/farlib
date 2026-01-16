@@ -1,9 +1,9 @@
+using FarLibCL.Authors.Entities;
+using FarLibCL.Books.Entities;
 using FarLibCL.Books.Enums;
+using FarLibCL.Distributors.Entities;
 using FarLibCL.Distributors.Enums;
-using FarLibDAL.Authors.Entities;
-using FarLibDAL.Books.Entities;
-using FarLibDAL.Distributors.Entities;
-using FarLibDAL.Stocks.Entities;
+using FarLibCL.Stocks.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
