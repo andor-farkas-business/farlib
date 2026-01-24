@@ -52,4 +52,9 @@ public class AuthorRepository(FarLibDbContext dbContext) : IAuthorRepository
 
         dbContext.Authors.Remove(foundAuthor);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
+    }
 }

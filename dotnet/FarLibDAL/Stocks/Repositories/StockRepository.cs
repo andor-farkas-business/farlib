@@ -66,4 +66,9 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
 
         dbContext.Stocks.Remove(foundStock);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
+    }
 }

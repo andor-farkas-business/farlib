@@ -10,4 +10,5 @@ public interface IAuthorRepository
     Task<IList<Author>> GetAllAsync();
     Task UpdateAsync(Guid id, UpdateAuthorDto update);
     Task DeleteAsync(Guid id);
+    Task SaveChangesAsync();
 }
