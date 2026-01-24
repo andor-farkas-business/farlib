@@ -12,4 +12,5 @@ public interface IDistributorRepository
     Task<IList<Distributor>> GetByTypeAsync(DistributorType type);
     Task UpdateAsync(Guid id, UpdateDistributorDto update);
     Task DeleteAsync(Guid id);
+    Task SaveChangesAsync();
 }

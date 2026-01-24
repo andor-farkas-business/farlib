@@ -11,4 +11,5 @@ public interface IStockRepository
     Task<IList<Stock>> GetByDistributorIdAsync(Guid distributorId);
     Task UpdateAsync(Guid bookId, Guid distributorId, int update);
     Task DeleteAsync(Guid bookId, Guid distributorId);
+    Task SaveChangesAsync();
 }

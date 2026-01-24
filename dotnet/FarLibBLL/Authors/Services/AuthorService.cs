@@ -16,6 +16,7 @@ public class AuthorService(
         var author = mapper.MapAddDtoToEntity(add);
 
         await repository.AddAsync(author);
+        await repository.SaveChangesAsync();
     }
 
     public async Task<AuthorDetailsDto> GetByIdAsync(Guid id)
@@ -36,10 +37,12 @@ public class AuthorService(
     public async Task UpdateAsync(Guid id, UpdateAuthorDto update)
     {
         await repository.UpdateAsync(id, update);
+        await repository.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid id)
     {
         await repository.DeleteAsync(id);
+        await repository.SaveChangesAsync();
     }
 }
