@@ -1,7 +1,7 @@
 using FarLibCL.Books.Dtos;
 using FarLibCL.Books.Entities;
-using FarLibCL.Books.Enums;
 using FarLibCL.Exceptions;
+using FarLibDAL.Books.Filtering;
 using FarLibDAL.Books.Repositories.Interfaces;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;
@@ -23,31 +23,19 @@ public class BookRepository(FarLibDbContext dbContext) : IBookRepository
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<IList<Book>> GetAllAsync()
+    public async Task<(int, int, IList<Book>)> GetAllAsync(BookFilterDto filter)
     {
-        return await dbContext.Books
+        var books = dbContext.Books
             .Include(b => b.Authors)
-            .AsNoTracking()
-            .ToListAsync();
-    }
+            .AsNoTracking();
 
-    public async Task<IList<Book>> GetByTypeAsync(BookType type)
-    {
-        return await dbContext.Books
-            .Include(b => b.Authors)
-            .AsNoTracking()
-            .Where(b => b.Type == type)
-            .ToListAsync();
-    }
-
-    // Contains all flagged categories
-    public async Task<IList<Book>> GetByCategoryAsync(BookCategory category)
-    {
-        return await dbContext.Books
-            .Include(b => b.Authors)
-            .AsNoTracking()
-            .Where(b => b.Category.HasFlag(category))
-            .ToListAsync();
+        var filterPipeline = new BookFilterPipeline(books, filter);
+        books = filterPipeline.Filter();
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await books
+            .ToListAsync());
     }
 
     public async Task<IList<Book>> GetByAuthorAsync(Guid authorId)
@@ -91,5 +79,10 @@ public class BookRepository(FarLibDbContext dbContext) : IBookRepository
             throw new ObjectNotFoundException(nameof(Book), nameof(Book.Id), id.ToString());
             
         dbContext.Books.Remove(foundBook);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
     }
 }
