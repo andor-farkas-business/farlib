@@ -12,6 +12,6 @@ public class Book
     public required BookType Type { get; set; }
     public required BookCategory Category { get; set; }
 
-    public required IList<Author> Authors { get; set; }
+    public IList<Author> Authors { get; set; } = [];
     public IList<Stock> Stocks { get; set; } = [];
 }
