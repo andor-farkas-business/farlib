@@ -66,4 +66,9 @@ public class DistributorRepository(FarLibDbContext dbContext) : IDistributorRepo
 
         dbContext.Distributors.Remove(foundDistributor);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
+    }
 }
