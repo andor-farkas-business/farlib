@@ -26,9 +26,9 @@ public class AuthorsController(IAuthorService service) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IList<AuthorListItemDto>>> GetAllAsync()
+    public async Task<ActionResult<AuthorListDto>> GetAllAsync([FromQuery] AuthorFilterDto filter)
     {
-        var authors = await service.GetAllAsync();
+        var authors = await service.GetAllAsync(filter);
 
         return Ok(authors);
     }
