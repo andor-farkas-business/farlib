@@ -1,3 +1,4 @@
+using FarLibCL.Authors;
 using FarLibCL.Authors.Dtos;
 using FarLibCL.Authors.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ public class AuthorFilterPipeline(IQueryable<Author> authors, AuthorFilterDto fi
 
         if (filter.PageSize == null || !filter.PageSize.HasValue)
         {
-            filter.PageSize = 10;
+            filter.PageSize = Constants.DefaultPageSize;
         }
 
         TotalItems = authors.Count();
