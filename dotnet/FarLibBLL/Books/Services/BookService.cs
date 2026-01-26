@@ -1,6 +1,7 @@
 using FarLibBLL.Books.Mappers.Interfaces;
 using FarLibBLL.Books.Services.Interfaces;
 using FarLibCL.Books.Dtos;
+using FarLibCL.Books.Entities;
 using FarLibCL.Exceptions;
 using FarLibDAL.Books.Repositories.Interfaces;
 
@@ -19,7 +20,7 @@ public class BookService(IBookRepository repository, IBookMapper mapper) : IBook
     public async Task<BookDetailsDto?> GetByIdAsync(Guid id)
     {
         var entity = await repository.GetByIdAsync(id) ??
-            throw new ObjectNotFoundException("Book", "Id", id.ToString());
+            throw new ObjectNotFoundException(nameof(Book), nameof(Book.Id), id.ToString());
 
         return mapper.MapEntityToDetailsDto(entity);
     }
