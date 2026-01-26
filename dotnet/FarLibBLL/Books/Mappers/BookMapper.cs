@@ -16,7 +16,11 @@ public class BookMapper : IBookMapper
             Title = dto.Title,
             Description = dto.Description,
             Type = dto.Type,
-            Category = dto.Category
+            Category = dto.Category,
+            Authors = [.. dto.AuthorIds.Select(id => new Author
+            {
+                Id = id
+            })]
         };
     }
 
