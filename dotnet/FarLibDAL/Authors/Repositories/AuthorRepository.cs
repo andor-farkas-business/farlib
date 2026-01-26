@@ -1,6 +1,7 @@
 using FarLibCL.Authors.Dtos;
 using FarLibCL.Authors.Entities;
 using FarLibCL.Exceptions;
+using FarLibDAL.Authors.Filtering;
 using FarLibDAL.Authors.Repositories.Interfaces;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +23,18 @@ public class AuthorRepository(FarLibDbContext dbContext) : IAuthorRepository
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<IList<Author>> GetAllAsync()
+    public async Task<(int, int, IList<Author>)> GetAllAsync(AuthorFilterDto filter)
     {
-        return await dbContext.Authors
-            .AsNoTracking()
-            .ToListAsync();
+        var authors = dbContext.Authors.AsNoTracking();
+
+        var filterPipeline = new AuthorFilterPipeline(authors, filter);
+        authors = filterPipeline.Filter();
+
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await authors.ToListAsync()
+        );
     }
 
     public async Task UpdateAsync(Guid id, UpdateAuthorDto update)
