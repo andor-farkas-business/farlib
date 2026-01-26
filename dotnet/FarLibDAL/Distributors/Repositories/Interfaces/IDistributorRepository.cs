@@ -8,7 +8,7 @@ public interface IDistributorRepository
 {
     Task AddAsync(Distributor distributor);
     Task<Distributor?> GetByIdAsync(Guid id);
-    Task<IList<Distributor>> GetAllAsync();
+    Task<(int, int, IList<Distributor>)> GetAllAsync(DistributorFilterDto filter);
     Task<IList<Distributor>> GetByTypeAsync(DistributorType type);
     Task UpdateAsync(Guid id, UpdateDistributorDto update);
     Task DeleteAsync(Guid id);
