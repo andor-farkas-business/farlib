@@ -6,7 +6,7 @@ public interface IAuthorService
 {
     Task AddAsync(AddAuthorDto add);
     Task<AuthorDetailsDto> GetByIdAsync(Guid id);
-    Task<IList<AuthorListItemDto>> GetAllAsync();
+    Task<AuthorListDto> GetAllAsync(AuthorFilterDto filter);
     Task UpdateAsync(Guid id, UpdateAuthorDto update);
     Task DeleteAsync(Guid id);
 }

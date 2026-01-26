@@ -27,11 +27,16 @@ public class AuthorService(
         return mapper.MapEntityToDetailsDto(entity);
     }
 
-    public async Task<IList<AuthorListItemDto>> GetAllAsync()
+    public async Task<AuthorListDto> GetAllAsync(AuthorFilterDto filter)
     {
-        var entities = await repository.GetAllAsync();
+        var (totalItems, totalPages, entities) = await repository.GetAllAsync(filter);
 
-        return [.. entities.Select(mapper.MapEntityToListItemDto)];
+        return new AuthorListDto {
+            Authors = [.. entities.Select(mapper.MapEntityToListItemDto)],
+            TotalItems = totalItems,
+            Page = filter.Page!.Value,
+            TotalPages = totalPages,
+        };
     }
 
     public async Task UpdateAsync(Guid id, UpdateAuthorDto update)
