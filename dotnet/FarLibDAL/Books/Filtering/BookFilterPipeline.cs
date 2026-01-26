@@ -1,3 +1,4 @@
+using FarLibCL.Books;
 using FarLibCL.Books.Dtos;
 using FarLibCL.Books.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +71,7 @@ public class BookFilterPipeline(IQueryable<Book> books, BookFilterDto filter)
 
         if (filter.PageSize == null || !filter.PageSize.HasValue)
         {
-            filter.PageSize = 10;
+            filter.PageSize = Constants.DefaultPageSize;
         }
 
         TotalItems = books.Count();
