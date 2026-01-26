@@ -3,6 +3,7 @@ using FarLibCL.Distributors.Entities;
 using FarLibCL.Distributors.Enums;
 using FarLibCL.Exceptions;
 using FarLibDAL.Database;
+using FarLibDAL.Distributors.Filtering;
 using FarLibDAL.Distributors.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,11 +24,19 @@ public class DistributorRepository(FarLibDbContext dbContext) : IDistributorRepo
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<IList<Distributor>> GetAllAsync()
+    public async Task<(int, int, IList<Distributor>)> GetAllAsync(DistributorFilterDto filter)
     {
-        return await dbContext.Distributors
-            .AsNoTracking()
-            .ToListAsync();
+        var distributors = dbContext.Distributors
+            .AsNoTracking();
+        var filterPipeline = new DistributorFilterPipeline(distributors, filter);
+
+        distributors = filterPipeline.Filter();
+        
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await distributors.ToListAsync()
+        );
     }
 
     public async Task<IList<Distributor>> GetByTypeAsync(DistributorType type)
