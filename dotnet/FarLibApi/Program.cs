@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using FarLibApi.Authors;
 using FarLibApi.Books;
 using FarLibApi.Distributors;
+using FarLibApi.Middlewares;
 using FarLibApi.Stocks;
 using FarLibDAL.Database;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
