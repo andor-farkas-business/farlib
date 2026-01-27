@@ -5,5 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FarLibCL\FarLibCL.csproj" />
+    <ProjectReference Include="..\FarLibDAL\FarLibDAL.csproj" />
+  </ItemGroup>
 
 </Project>

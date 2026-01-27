@@ -1,0 +1,105 @@
+using FarLibCL.Authors.Entities;
+using FarLibCL.Books.Entities;
+using FarLibCL.Books.Enums;
+using FarLibCL.Distributors.Entities;
+using FarLibCL.Distributors.Enums;
+using FarLibCL.Stocks.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace FarLibDAL.Database;
+
+public static class SeedDatabase
+{
+    public static async Task SeedDbContextAsync(IServiceProvider serviceProvider)
+    {
+        var dbContext = serviceProvider.GetRequiredService<FarLibDbContext>();
+        var logger = serviceProvider.GetRequiredService<ILogger<FarLibDbContext>>();
+
+        await dbContext.Database.EnsureCreatedAsync();
+
+        if (await dbContext.Authors.AnyAsync() || await dbContext.Distributors.AnyAsync())
+        {
+            return;
+        }
+
+        await dbContext.Authors.AddRangeAsync(Authors);
+        await dbContext.SaveChangesAsync();
+        Authors = await dbContext.Authors.ToListAsync();
+
+        Task[] tasks =
+        [
+          dbContext.Books.AddRangeAsync(Books),
+          dbContext.Distributors.AddRangeAsync(Distributors),
+        ];
+        await Task.WhenAll(tasks);
+        
+        await dbContext.SaveChangesAsync();
+        var books = await dbContext.Books.ToListAsync();
+        var distributors = await dbContext.Distributors.ToListAsync();
+
+        IList<Stock> stocks =
+        [
+            new Stock() {
+                BookId = books.ElementAt(0).Id,
+                DistributorId = distributors.ElementAt(0).Id,
+                Amount = 15,
+            }
+        ];
+        
+        await dbContext.Stocks.AddRangeAsync(stocks);
+        
+
+        await dbContext.SaveChangesAsync();
+
+        var authorCount = dbContext.Authors.CountAsync();
+        var bookCount = dbContext.Books.CountAsync();
+        var distributorCount = dbContext.Distributors.CountAsync();
+        var stockCount = dbContext.Stocks.CountAsync();
+
+        logger.LogInformation(
+            "\nAuthors: {AuthorCount}\nBooks: {BookCount}\nDistributors: {DistributorCount}\nStocks: {StockCount}",
+            await authorCount,
+            await bookCount,
+            await distributorCount,
+            await stockCount
+        );
+    }
+
+    private static List<Author> Authors { get; set; } =
+    [
+        new Author()
+        {
+          Name = "Author1",
+          Description = "Author1 Description",  
+        },
+        new Author()
+        {
+          Name = "Author2",
+          Description = "Author2 Description",  
+        },
+    ];
+
+    private static List<Book> Books =>
+    [
+        new Book()
+        {
+          Title = "Book1",
+          Description = "Book1 Description",
+          Type = BookType.Book,
+          Category = BookCategory.Fantasy | BookCategory.Crime,
+          Authors = [Authors[0]]  
+        }
+    ];
+
+    private static List<Distributor> Distributors =>
+    [
+        new Distributor()
+        {
+            Name = "Distributor1",
+            Address = "Distributor1 Address",
+            Type = DistributorType.Library
+        }
+    ];
+}
