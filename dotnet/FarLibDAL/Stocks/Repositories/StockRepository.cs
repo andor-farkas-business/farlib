@@ -1,6 +1,8 @@
 using FarLibCL.Exceptions;
+using FarLibCL.Stocks.Dtos;
 using FarLibCL.Stocks.Entities;
 using FarLibDAL.Database;
+using FarLibDAL.Stocks.Filtering;
 using FarLibDAL.Stocks.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,27 +24,56 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
             .FirstOrDefaultAsync(x => x.BookId == bookId && x.DistributorId == distributorId);
     }
 
-    public async Task<IList<Stock>> GetAllAsync()
+    public async Task<(int, int, IList<Stock>)> GetAllAsync(StockFilterDto filter)
     {
-        return await dbContext.Stocks
-            .AsNoTracking()
-            .ToListAsync();
+        var stocks = dbContext.Stocks
+            .AsNoTracking();
+
+        var filterPipeline = new StockFilterPipeline(stocks, filter);
+
+        stocks = filterPipeline.Filter();
+
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await stocks.ToListAsync()
+        );
     }
 
-    public async Task<IList<Stock>> GetByBookIdAsync(Guid bookId)
+    public async Task<(int, int, IList<Stock>)> GetByBookIdAsync(Guid bookId, StockFilterDto filter)
     {
-        return await dbContext.Stocks
+        var stocks = dbContext.Stocks
+            .Include(s => s.Distributor)
             .AsNoTracking()
-            .Where(s => s.BookId == bookId)
-            .ToListAsync();
+            .Where(s => s.BookId == bookId);
+
+        var filterPipeline = new StockFilterPipeline(stocks, filter);
+
+        stocks = filterPipeline.Filter();
+
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await stocks.ToListAsync()
+        );
     }
 
-    public async Task<IList<Stock>> GetByDistributorIdAsync(Guid distributorId)
+    public async Task<(int, int, IList<Stock>)> GetByDistributorIdAsync(Guid distributorId, StockFilterDto filter)
     {
-        return await dbContext.Stocks
+        var stocks = dbContext.Stocks
+            .Include(s => s.Book)
             .AsNoTracking()
-            .Where(s => s.DistributorId == distributorId)
-            .ToListAsync();
+            .Where(s => s.DistributorId == distributorId);
+
+        var filterPipeline = new StockFilterPipeline(stocks, filter);
+
+        stocks = filterPipeline.Filter();
+
+        return (
+            filterPipeline.TotalItems,
+            filterPipeline.TotalPages,
+            await stocks.ToListAsync()
+        );
     }
 
     public async Task UpdateAsync(Guid bookId, Guid distributorId, int update)
