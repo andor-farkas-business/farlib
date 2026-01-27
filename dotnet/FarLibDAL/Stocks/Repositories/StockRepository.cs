@@ -28,6 +28,8 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
     public async Task<(int, int, IList<Stock>)> GetAllAsync(StockFilterDto filter)
     {
         var stocks = dbContext.Stocks
+            .Include(s => s.Book)
+            .Include(s => s.Distributor)
             .AsNoTracking();
 
         var filterPipeline = new StockFilterPipeline(stocks, filter);
