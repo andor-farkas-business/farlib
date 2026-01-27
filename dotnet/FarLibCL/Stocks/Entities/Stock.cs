@@ -9,6 +9,6 @@ public class Stock
     public Guid DistributorId { get; set; }
     public required int Amount { get; set; }
 
-    public required Book Book { get; set; }
-    public required Distributor Distributor { get; set; }
+    public Book Book { get; set; } = null!;
+    public Distributor Distributor { get; set; } = null!;
 }
