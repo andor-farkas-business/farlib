@@ -19,6 +19,7 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
     {
         return await dbContext.Stocks
             .Include(s => s.Book)
+            .ThenInclude(b => b.Authors)
             .Include(s => s.Distributor)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.BookId == bookId && x.DistributorId == distributorId);
@@ -62,6 +63,7 @@ public class StockRepository(FarLibDbContext dbContext) : IStockRepository
     {
         var stocks = dbContext.Stocks
             .Include(s => s.Book)
+            .ThenInclude(b => b.Authors)
             .AsNoTracking()
             .Where(s => s.DistributorId == distributorId);
 
