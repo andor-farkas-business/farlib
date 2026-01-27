@@ -32,10 +32,24 @@ public static class SeedDatabase
         [
           dbContext.Books.AddRangeAsync(Books),
           dbContext.Distributors.AddRangeAsync(Distributors),
-          dbContext.Stocks.AddRangeAsync(Stocks)
+        ];
+        await Task.WhenAll(tasks);
+        
+        await dbContext.SaveChangesAsync();
+        var books = await dbContext.Books.ToListAsync();
+        var distributors = await dbContext.Distributors.ToListAsync();
+
+        IList<Stock> stocks =
+        [
+            new Stock() {
+                BookId = books.ElementAt(0).Id,
+                DistributorId = distributors.ElementAt(0).Id,
+                Amount = 15,
+            }
         ];
         
-        await Task.WhenAll(tasks);
+        await dbContext.Stocks.AddRangeAsync(stocks);
+        
 
         await dbContext.SaveChangesAsync();
 
@@ -87,10 +101,5 @@ public static class SeedDatabase
             Address = "Distributor1 Address",
             Type = DistributorType.Library
         }
-    ];
-
-    private static List<Stock> Stocks =>
-    [
-        
     ];
 }
