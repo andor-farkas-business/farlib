@@ -24,6 +24,14 @@ public static class SeedDatabase
             return;
         }
 
+        for (int i = 1; i <= 100; i++)
+        {
+            Authors.Add(new Author
+            {
+                Name = $"Author{i}",
+                Description = $"Author{i} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem orci, dapibus in dignissim a, luctus id enim. Phasellus feugiat quam sit amet eleifend convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque egestas ex at nisi egestas, et rhoncus magna ullamcorper. Morbi placerat ultrices turpis id egestas. Morbi dapibus ut magna ac ultricies. Maecenas convallis volutpat tellus, sit amet commodo arcu eleifend sit amet. Quisque et felis convallis, accumsan ante nec, posuere ligula. Maecenas non enim blandit purus vulputate imperdiet. Nulla tristique eros id consectetur viverra. Donec non sollicitudin felis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam efficitur luctus ligula ut vulputate. Sed efficitur velit sed aliquam dictum. Suspendisse quis magna enim. Praesent suscipit nisi eu odio fringilla posuere."
+            });
+        }
         await dbContext.Authors.AddRangeAsync(Authors);
         await dbContext.SaveChangesAsync();
         Authors = await dbContext.Authors.ToListAsync();
@@ -68,18 +76,7 @@ public static class SeedDatabase
     }
 
     private static List<Author> Authors { get; set; } =
-    [
-        new Author()
-        {
-          Name = "Author1",
-          Description = "Author1 Description",  
-        },
-        new Author()
-        {
-          Name = "Author2",
-          Description = "Author2 Description",  
-        },
-    ];
+    [];
 
     private static List<Book> Books =>
     [
