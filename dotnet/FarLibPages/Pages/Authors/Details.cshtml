@@ -1,0 +1,41 @@
+@page
+@model FarLibPages.Pages.Authors.DetailsModel
+@{
+    ViewData["Title"] = Model.Author.Name;
+}
+
+<div class="container">
+    <h1>@Model.Author.Name</h1>
+    <div class="d-flex">
+        <div>
+            <p>@Model.Author.Description</p>
+        </div>
+        <div>
+            <img src="/images/cat.jpg" alt="Picture of @Model.Author.Name" />
+        </div>
+    </div>
+
+    <h2>Books</h2>
+    <hr />
+
+    @if (Model.Author.Books.Count > 0)
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach (var book in Model.Author.Books)
+        {
+            <vc:card
+                image-source="/images/cat.jpg",
+                image-alt="Picture of @book.Title",
+                title="@book.Title"
+                text="@book.Description"
+                button-page="/Books/Details",
+                button-route-id="@book.Id",
+                button-text="Details"></vc:card>
+        }
+    </div>
+    }
+    else
+    {
+        <p>This author has not published a book yet.</p>
+    }
+</div>

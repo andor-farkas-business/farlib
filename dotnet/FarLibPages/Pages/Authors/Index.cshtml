@@ -1,0 +1,42 @@
+@page
+@model FarLibPages.Pages.Authors.IndexModel
+
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<div class="container">
+
+    <h1>Authors</h1>
+
+    <form class="mb-3" asp-page="./Index" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="name" value="@Model.Filter.Name" />
+            <input type="submit" class="btn btn-primary" value="Search"/>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Filter.Name))
+        {
+            <a asp-page="./Index"><span>Reset</span></a>
+        }
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach (var author in Model.Authors.Authors)
+        {
+            <vc:card
+                image-source="/images/cat.jpg",
+                image-alt="Picture of @author.Name",
+                title="@author.Name"
+                text="@author.Description"
+                button-page="/Authors/Details",
+                button-route-id="@author.Id",
+                button-text="Details"></vc:card>
+        }
+    </div>
+
+    <vc:pagination
+        page-name="/Authors/Index",
+        current-page="@Model.Authors.Page",
+        total-pages="@Model.Authors.TotalPages",
+        filters="@Model.MapFiltersToRouteData()"></vc:pagination>
+</div>

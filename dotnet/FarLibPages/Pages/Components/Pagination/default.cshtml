@@ -1,0 +1,96 @@
+@using PaginationConstants = FarLibCL.Pagination.Constants;
+@model FarLibPages.ViewComponents.Models.Pagination;
+
+@{
+    int paginationAmount = Math.Min(Model.TotalPages, PaginationConstants.PaginationAmount);
+    int pageDelta = PaginationConstants.PaginationAmount / 2;
+    int currentMinusDelta = Math.Max(Model.CurrentPage - pageDelta, 1);
+    int currentPlusDelta = Model.CurrentPage + pageDelta;
+    int maxPageOverflow =
+        Model.TotalPages >= PaginationConstants.PaginationAmount && currentPlusDelta > Model.TotalPages ?
+        currentPlusDelta - Model.TotalPages :
+        0;
+}
+
+<ul class="pagination justify-content-md-center mt-2">
+    @if (Model.CurrentPage > 1)
+    {
+        <li class="page-item">
+            <a class="page-link" aria-label="First"
+                asp-page="@Model.PageName"
+                asp-all-route-data="@Model.GetRoutePage(1)">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" aria-label="Previous"
+                asp-page="@Model.PageName"
+                asp-all-route-data="@Model.GetRoutePage(Model.CurrentPage - 1)">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" aria-label="First">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+    }
+    @for (int i = 0; i < paginationAmount; i++)
+    {
+        int pageNumber = currentMinusDelta + i - maxPageOverflow;
+        if (pageNumber == Model.CurrentPage)
+        {
+            <li class="page-item active">
+                <a class="page-link" aria-current="page">@pageNumber</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link"
+                    asp-page="@Model.PageName"
+                    asp-all-route-data="@Model.GetRoutePage(pageNumber)">
+                    @pageNumber
+                </a>
+            </li>
+        }
+    }
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <li class="page-item">
+            <a class="page-link" aria-label="Next"
+                asp-page="@Model.PageName"
+                asp-all-route-data="@Model.GetRoutePage(Model.CurrentPage + 1)">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" aria-label="Last"
+                asp-page="@Model.PageName"
+                asp-all-route-data="@Model.GetRoutePage(Model.TotalPages)">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" aria-label="Last">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    }
+</div>
