@@ -17,9 +17,9 @@ public class StockFilterPipeline(IQueryable<Stock> stocks, StockFilterDto filter
 
     private void Paginate()
     {
-        if (filter.Page == null || !filter.Page.HasValue)
+        if (filter.PageIndex == null || !filter.PageIndex.HasValue)
         {
-            filter.Page = 1;
+            filter.PageIndex = 1;
         }
 
         if (filter.PageSize == null || !filter.PageSize.HasValue)
@@ -36,7 +36,7 @@ public class StockFilterPipeline(IQueryable<Stock> stocks, StockFilterDto filter
 
         stocks = stocks
             .OrderByDescending(s => s.Amount)
-            .Skip((filter.Page.Value - 1) * filter.PageSize.Value)
+            .Skip((filter.PageIndex.Value - 1) * filter.PageSize.Value)
             .Take(filter.PageSize.Value);
     }
 }
