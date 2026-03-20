@@ -30,12 +30,6 @@ builder.Services.AddBookServices();
 builder.Services.AddDistributorServices();
 builder.Services.AddStockServices();
 
-// Add FarLib services to the container.
-builder.Services.AddAuthorServices();
-builder.Services.AddBookServices();
-builder.Services.AddDistributorServices();
-builder.Services.AddStockServices();
-
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
