@@ -36,7 +36,7 @@ public class DistributorService(
         {
             Distributors = [.. entities.Select(mapper.MapEntityToListItemDto)],
             TotalItems = totalItems,
-            Page = filter.Page!.Value,
+            Page = filter.PageIndex!.Value,
             TotalPages = totalPages
         };
     }

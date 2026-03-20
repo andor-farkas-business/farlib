@@ -36,7 +36,7 @@ public class StockService(IStockRepository repostiory, IStockMapper mapper) : IS
         {
             Stocks = [.. entities.Select(mapper.MapEntityToListItemDto)],
             TotalItems = totalItems,
-            Page = filter.Page!.Value,
+            Page = filter.PageIndex!.Value,
             TotalPages = totalPages,
         };
     }
@@ -49,7 +49,7 @@ public class StockService(IStockRepository repostiory, IStockMapper mapper) : IS
         {
             Stocks = [.. entities.Select(mapper.MapEntityToBookStockListItemDto)],
             TotalItems = totalItems,
-            Page = filter.Page!.Value,
+            Page = filter.PageIndex!.Value,
             TotalPages = totalPages,
         };
     }
@@ -62,7 +62,7 @@ public class StockService(IStockRepository repostiory, IStockMapper mapper) : IS
         {
             Stocks = [.. entities.Select(mapper.MapEntityToDistributorStockListItemDto)],
             TotalItems = totalItems,
-            Page = filter.Page!.Value,
+            Page = filter.PageIndex!.Value,
             TotalPages = totalPages,
         };
     }

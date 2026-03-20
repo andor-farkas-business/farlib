@@ -64,9 +64,9 @@ public class BookFilterPipeline(IQueryable<Book> books, BookFilterDto filter)
 
     private void Paginate()
     {
-        if (filter.Page == null || !filter.Page.HasValue)
+        if (filter.PageIndex == null || !filter.PageIndex.HasValue)
         {
-            filter.Page = 1;
+            filter.PageIndex = 1;
         }
 
         if (filter.PageSize == null || !filter.PageSize.HasValue)
@@ -83,7 +83,7 @@ public class BookFilterPipeline(IQueryable<Book> books, BookFilterDto filter)
 
         books = books
             .OrderBy(b => b.Title)
-            .Skip((filter.Page.Value - 1) * filter.PageSize.Value)
+            .Skip((filter.PageIndex.Value - 1) * filter.PageSize.Value)
             .Take(filter.PageSize.Value);
     }
 }

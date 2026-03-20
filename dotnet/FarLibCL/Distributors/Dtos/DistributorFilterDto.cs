@@ -6,6 +6,6 @@ public class DistributorFilterDto
 {
     public string? Name { get; set; }
     public DistributorType? Type { get; set; }
-    public int? Page { get; set; }
+    public int? PageIndex { get; set; }
     public int? PageSize { get; set; }
 }

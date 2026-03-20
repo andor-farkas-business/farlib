@@ -17,7 +17,7 @@ public class BookService(IBookRepository repository, IBookMapper mapper) : IBook
         await repository.SaveChangesAsync();
     }
 
-    public async Task<BookDetailsDto?> GetByIdAsync(Guid id)
+    public async Task<BookDetailsDto> GetByIdAsync(Guid id)
     {
         var entity = await repository.GetByIdAsync(id) ??
             throw new ObjectNotFoundException(nameof(Book), nameof(Book.Id), id.ToString());
@@ -32,7 +32,7 @@ public class BookService(IBookRepository repository, IBookMapper mapper) : IBook
         return new BookListDto() {
             Books = [.. entities.Select(mapper.MapEntityToListItemDto)],
             TotalItems = totalItems,
-            Page = filter.Page!.Value,
+            Page = filter.PageIndex!.Value,
             TotalPages = totalPages,
             };
     }
