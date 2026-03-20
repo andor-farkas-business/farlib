@@ -1,7 +1,26 @@
+using FarLibDAL.Database;
+using FarLibPages.Authors;
+using FarLibPages.Books;
+using FarLibPages.Distributors;
+using FarLibPages.Stocks;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<FarLibDbContext>(options =>
+{
+   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddLogging();
+
+// Add FarLib services to the container.
+builder.Services.AddAuthorServices();
+builder.Services.AddBookServices();
+builder.Services.AddDistributorServices();
+builder.Services.AddStockServices();
 
 var app = builder.Build();
 
@@ -23,4 +42,12 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.Run();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    await SeedDatabase.SeedDbContextAsync(services);
+}
+
+await app.RunAsync();

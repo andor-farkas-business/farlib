@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FarLibBLL\FarLibBLL.csproj" />
+    <ProjectReference Include="..\FarLibCL\FarLibCL.csproj" />
+    <ProjectReference Include="..\FarLibDAL\FarLibDAL.csproj" />
+  </ItemGroup>
+
 </Project>
