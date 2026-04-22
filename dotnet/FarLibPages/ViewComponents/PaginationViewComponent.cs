@@ -5,7 +5,7 @@ namespace FarLibPages.ViewComponents;
 
 public class PaginationViewComponent : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(
+    public IViewComponentResult Invoke(
         string pageName,
         int currentPage,
         int totalPages,
