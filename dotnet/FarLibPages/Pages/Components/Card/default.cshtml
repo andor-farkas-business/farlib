@@ -13,7 +13,9 @@
 
 <div class="col">
     <div class="card border-info">
-        <img src="@Model.ImageSource" class="card-img-top" alt="@Model.ImageAlt"/>
+        <a asp-page="@Model.ButtonPage" asp-route-id="@Model.ButtonRouteId">
+            <img src="@Model.ImageSource" class="card-img-top" alt="@Model.ImageAlt"/>
+        </a>
         <div class="card-body">
             <h5 class="card-title text-center">
                 <a asp-page="@Model.ButtonPage" asp-route-id="@Model.ButtonRouteId">@Model.Title</a>
