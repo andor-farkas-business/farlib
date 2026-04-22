@@ -1,0 +1,67 @@
+@page
+@model FarLibPages.Pages.Books.DetailsModel
+@{
+    ViewData["Title"] = Model.Book.Title;
+}
+
+<div class="container">
+    <h1>@Model.Book.Title</h1>
+
+    <div class="d-flex">
+        <div class="me-3">
+            <p>@Model.Book.Description</p>
+        </div>
+        <div class="ms-auto">
+            <img src="/images/cat.jpg" alt="Picture of @Model.Book.Title" />
+        </div>
+    </div>
+
+    <h2>Authors</h2>
+    <hr />
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-2">
+        @foreach (var author in Model.Book.Authors)
+        {
+            <vc:card
+                image-source="/images/cat.jpg",
+                image-alt="Picture of @author.Name",
+                title="@author.Name"
+                text=""
+                button-page="/Authors/Details",
+                button-route-id="@author.Id",
+                button-text="Details"></vc:card>
+        }
+    </div>
+
+    <h2>In Stock:</h2>
+    <hr />
+
+    @if (Model.Stocks.TotalItems > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Distributor</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stock in Model.Stocks.Stocks)
+                {
+                    <td>@stock.Distributor.Name</td>
+                    <td>@stock.Amount</td>
+                }
+            </tbody>
+        </table>
+        
+        <vc:pagination
+            page-name="/Books/Details",
+            current-page="@Model.Stocks.Page",
+            total-pages="@Model.Stocks.TotalPages",
+            filters="@Model.MapFiltersToRouteData()"></vc:pagination>
+    }
+    else
+    {
+        <span>Out of stock.</span>
+    }
+</div>
