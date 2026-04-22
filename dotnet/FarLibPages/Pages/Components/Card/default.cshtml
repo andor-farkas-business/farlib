@@ -6,7 +6,7 @@
     string descriptionEnd = string.Empty;
     if (indexOfPeriod != -1 && descriptionLength > indexOfPeriod + 1) // we have more than a single complete sentence
     {
-        descriptionLength = indexOfPeriod + 1;
+        descriptionLength = indexOfPeriod;
         descriptionEnd = "...";
     }
 }
