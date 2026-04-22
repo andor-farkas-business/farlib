@@ -1,4 +1,5 @@
 @page
+@using FarLibCL.Authors.Dtos
 @model FarLibPages.Pages.Authors.IndexModel
 
 @{
@@ -11,7 +12,8 @@
 
     <form class="mb-3" asp-page="./Index" method="get">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="name" value="@Model.Filter.Name" />
+            <input type="text" class="form-control" placeholder="Search"
+                name="@nameof(AuthorFilterDto.Name)" value="@Model.Filter.Name" />
             <input type="submit" class="btn btn-primary" value="Search"/>
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.Filter.Name))
