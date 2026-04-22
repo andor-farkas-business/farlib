@@ -1,0 +1,33 @@
+@page
+@using FarLibCL.Books.Enums
+@model FarLibPages.Pages.Books.IndexModel
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="container">
+    <h1>Books</h1>
+
+    <vc:book-filter-form filter="@Model.Filter"></vc:book-filter-form>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach (var book in Model.Books.Books)
+        {
+            <vc:card
+                image-source="/images/cat.jpg",
+                image-alt="Picture of @book.Title",
+                title="@book.Title"
+                text="@(string.Join(", ", book.Authors.Select(a => a.Name)))"
+                button-page="/Books/Details",
+                button-route-id="@book.Id",
+                button-text="Details"></vc:card>
+        }
+    </div>
+
+    <vc:pagination
+        page-name="/Authors/Index",
+        current-page="@Model.Books.Page",
+        total-pages="@Model.Books.TotalPages",
+        filters="@Model.MapFiltersToRouteData()"></vc:pagination>
+
+</div>
