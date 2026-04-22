@@ -1,0 +1,49 @@
+@model FarLibPages.ViewComponents.Models.BookFilterForm
+@using FarLibCL.Books.Enums
+@using FarLibCL.Books.Dtos
+
+<form class="border p-2 mb-3" asp-page="/Books/Index" method="get">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for a book's title"
+            name="@nameof(BookFilterDto.Title)" value="@Model.Filter.Title" />
+        <input type="text" class="form-control" placeholder="Search for an author's name"
+            name="@nameof(BookFilterDto.AuthorName)" value="@Model.Filter.AuthorName" />
+    </div>
+    <div class="mt-2">
+        <span class="fw-bold">Type</span>
+    </div>
+    <div class="input-group">
+        <input type="radio" class="form-radio-input mx-1" id="@($"typeAny")"
+            name="@nameof(BookFilterDto.Type)" value="Any"
+            @(Model.Filter.Type == null || !Model.Filter.Type.HasValue ? "checked" : "") />
+        <label for="@($"typeAny")">Any</label>
+        @foreach (var type in Enum.GetValues<BookType>())
+        {
+            <input type="radio" class="form-radio-input mx-1" id="@($"type{type}")"
+                name="@nameof(BookFilterDto.Type)" value="@type"
+                @(Model.Filter.Type.HasValue && Model.Filter.Type.Value == type ? "checked" : "") />
+            <label for="@($"type{type}")">@type</label>
+        }
+    </div>
+    <div class="mt-2">
+        <span class="fw-bold">Category</span>
+    </div>
+    <div class="input-group">
+        @foreach (var category in Enum.GetValues<BookCategory>())
+        {
+            if (category == BookCategory.None) continue; 
+
+            <input type="checkbox" class="form-check-input mx-1" id="@($"category{category}")"
+                name="@nameof(BookFilterDto.Category)" value="@category"
+                @(Model.Filter.Category.HasValue && Model.Filter.Category.Value.HasFlag(category) ? "checked" : "") />
+            <label for="@($"category{category}")">@category</label>
+        }
+    </div>
+    <div class="input-group mt-2">
+        <input type="submit" class="btn btn-primary" value="Filter"/>
+    </div>
+    @if (Model.IsFiltered())
+    {
+        <a asp-page="/Books/Index"><span>Reset</span></a>
+    }
+</form>
