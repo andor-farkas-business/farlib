@@ -5,7 +5,7 @@ namespace FarLibPages.ViewComponents;
 
 public class CardViewComponent : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(
+    public IViewComponentResult Invoke(
         string imageSource,
         string imageAlt,
         string title,
