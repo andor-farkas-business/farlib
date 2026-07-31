@@ -48,7 +48,11 @@
             <tbody>
                 @foreach (var stock in Model.Stocks.Stocks)
                 {
-                    <td>@stock.Distributor.Name</td>
+                    <td>
+                        <a asp-page="/Distributors/Details" asp-route-id="@stock.Distributor.Id">
+                            @stock.Distributor.Name
+                        </a>
+                    </td>
                     <td>@stock.Amount</td>
                 }
             </tbody>
