@@ -1,0 +1,38 @@
+@page
+@model FarLibPages.Pages.Distributors.DetailsModel
+@{
+    ViewData["Title"] = Model.Distributor.Name;
+}
+
+<div class="container">
+    <h1>@Model.Distributor.Name</h1>
+
+    <div class="d-flex">
+        <div class="me-3">
+            <p>@Model.Distributor.Address</p>
+        </div>
+        <div class="ms-auto">
+            <img src="/images/cat.jpg" alt="Picture of @Model.Distributor.Name" />
+        </div>
+    </div>
+
+    <h2>Books</h2>
+    <hr />
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-2">
+        @foreach (var stock in Model.Stocks.Stocks)
+        {
+            string authors = string.Join(", ", stock.Book.Authors.Select(a => a.Name));
+            string text = stock.Amount > 0 ? $"In stock: {stock.Amount}" : "Out of stock";
+            <vc:card
+                image-source="/images/cat.jpg",
+                image-alt="Picture of @stock.Book.Title",
+                title="@stock.Book.Title (@authors)"
+                text="@text"
+                button-page="/Books/Details",
+                button-route-id="@stock.Book.Id",
+                button-text="Details"></vc:card>
+        }
+    </div>
+
+</div>
