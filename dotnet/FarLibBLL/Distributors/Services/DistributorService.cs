@@ -20,7 +20,7 @@ public class DistributorService(
         await repository.SaveChangesAsync();
     }
 
-    public async Task<DistributorDetailsDto?> GetByIdAsync(Guid id)
+    public async Task<DistributorDetailsDto> GetByIdAsync(Guid id)
     {
         var entity = await repository.GetByIdAsync(id) ?? 
             throw new ObjectNotFoundException(nameof(Distributor), nameof(Distributor.Id), id.ToString());
